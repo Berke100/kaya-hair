@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>KAYA HAIR | Gentlemen's Grooming</title>
+    <meta name="claude:viewport-fit-sides" content="cover" />
+    <meta
+      name="description"
+      content="KAYA HAIR Gentlemen's Grooming, Serdivan / Sakarya: modern erkek bakımı, saç kesimi ve sakal tasarımı. Salonu kaydırarak keşfedin, randevunuzu kolayca alın."
+    />
+    <link rel="icon" type="image/png" href="./favicon.png" />
+    <link rel="apple-touch-icon" href="./favicon.png" />
+    <meta name="theme-color" content="#1A120E" />
+    <meta property="og:title" content="KAYA HAIR | Gentlemen's Grooming" />
+    <meta property="og:description" content="Tarzın başladığı yer. Modern erkek bakımını, özenle tasarlanmış bir atmosferde keşfedin." />
+    <meta property="og:image" content="./assets/storefront.jpg" />
+    <style>
+      html, body { background: #1a120e; }
+    </style>
+    <!--
+      Yükleme güvencesi: site 20 sn içinde açılmazsa (ör. eski bir tarayıcıda
+      JavaScript hatası), boş ekran yerine hatanın metnini gösterir. Bilerek
+      eski JavaScript ile yazıldı; uygulama hiç çalışmasa da bu çalışır.
+      Site açılınca Preloader `window.__khReady = true` yapar ve bu ekran hiç görünmez.
+    -->
+    <script>
+      (function () {
+        var errs = [];
+        function add(m) {
+          if (errs.length < 6) errs.push(String(m).slice(0, 300));
+        }
+        window.addEventListener(
+          'error',
+          function (e) {
+            var t = e.target;
+            if (t && t !== window && (t.src || t.href)) add('Dosya yüklenemedi: ' + (t.src || t.href));
+            else add((e.message || 'Hata') + (e.filename ? ' (' + e.filename.split('/').pop() + ':' + e.lineno + ')' : ''));
+          },
+          true
+        );
+        window.addEventListener('unhandledrejection', function (e) {
+          var r = e.reason;
+          add('Promise: ' + (r && r.message ? r.message : r));
+        });
+        function esc(s) {
+          return String(s).replace(/[&<>]/g, function (c) {
+            return c === '&' ? '&amp;' : c === '<' ? '&lt;' : '&gt;';
+          });
+        }
+        setTimeout(function () {
+          if (window.__khReady) return;
+          var d = document.createElement('div');
+          d.setAttribute('role', 'alert');
+          d.style.cssText =
+            'position:fixed;inset:0;top:0;left:0;right:0;bottom:0;z-index:99999;overflow:auto;background:#1a120e;color:#d5c4ae;font:15px/1.5 -apple-system,system-ui,sans-serif;padding:48px 20px';
+          d.innerHTML =
+            '<div style="max-width:560px;margin:0 auto">' +
+            '<p style="font-size:20px;color:#fff;margin:0 0 8px">Site bu cihazda açılamadı.</p>' +
+            '<p style="margin:0 0 20px">Bu ekranın görüntüsünü bize gönderirseniz sorunu hemen çözebiliriz.</p>' +
+            '<p style="margin:0 0 6px;color:#a88462">Hata</p>' +
+            '<pre style="white-space:pre-wrap;word-break:break-word;background:#241a15;padding:12px;margin:0 0 16px;font-size:12px">' +
+            esc(errs.length ? errs.join('\n') : 'Hata kaydı yok (yükleme zaman aşımı)') +
+            '</pre>' +
+            '<p style="margin:0 0 6px;color:#a88462">Cihaz</p>' +
+            '<pre style="white-space:pre-wrap;word-break:break-word;background:#241a15;padding:12px;margin:0 0 20px;font-size:12px">' +
+            esc(navigator.userAgent) +
+            '</pre>' +
+            '<button type="button" onclick="location.reload()" style="font:inherit;color:#1a120e;background:#d5c4ae;border:0;padding:12px 20px">Yeniden dene</button>' +
+            '</div>';
+          document.body.appendChild(d);
+        }, 20000);
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

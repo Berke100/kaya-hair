@@ -1,0 +1,433 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Palet: espresso #1A120E (zemin), deve tüyü #A88462 (vurgu),
+ * kum #D5C4AE (metin), sıcak gri #4A4A46 (yüzey ve çizgiler).
+ * Layout: tam ekran sabit tur sahnesi; ardından sıcak tonlu geçişlerle
+ * birbirine bağlanan kısa, görsel ağırlıklı bölümler.
+ */
+:root {
+  --ink: #1A120E;
+  --coal: #231914;
+  --charcoal: #4A4A46;
+  --bronze: #A88462;
+  --ivory: #D5C4AE;
+  --mute: #9C9083;
+  --line: rgba(213, 196, 174, 0.12);
+  --font-display: 'Manrope', 'Inter', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  color-scheme: dark;
+}
+
+html {
+  background: var(--ink);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--ink);
+  color: var(--ivory);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--bronze);
+  color: var(--ink);
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+:focus-visible {
+  outline: 1px solid var(--bronze);
+  outline-offset: 4px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+@layer components {
+  .field {
+    width: 100%;
+    min-height: 48px;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid rgba(213, 196, 174, 0.22);
+    border-radius: 0;
+    color: var(--ivory);
+    font-family: var(--font-body);
+    font-size: 16px;
+    padding: 0.6rem 0;
+    transition: border-color 0.3s ease;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .field::placeholder {
+    color: rgba(156, 144, 131, 0.7);
+  }
+  .field:hover {
+    border-bottom-color: rgba(213, 196, 174, 0.45);
+  }
+  .field:focus {
+    outline: none;
+    border-bottom-color: var(--bronze);
+  }
+  .field:user-invalid {
+    border-bottom-color: #C07A5A;
+  }
+  select.field {
+    background-image: linear-gradient(45deg, transparent 50%, var(--mute) 50%),
+      linear-gradient(135deg, var(--mute) 50%, transparent 50%);
+    background-position: calc(100% - 10px) 55%, calc(100% - 5px) 55%;
+    background-size: 5px 5px;
+    background-repeat: no-repeat;
+    padding-right: 1.5rem;
+  }
+  select.field option {
+    background: var(--coal);
+    color: var(--ivory);
+  }
+  input[type='date'].field::-webkit-calendar-picker-indicator {
+    filter: invert(0.85);
+    cursor: pointer;
+  }
+
+  .gutter {
+    padding-left: max(20px, env(safe-area-inset-left, 0px));
+    padding-right: max(20px, env(safe-area-inset-right, 0px));
+  }
+  @media (min-width: 768px) {
+    .gutter {
+      padding-left: max(48px, env(safe-area-inset-left, 0px));
+      padding-right: max(48px, env(safe-area-inset-right, 0px));
+    }
+  }
+  @media (min-width: 1280px) {
+    .gutter {
+      padding-left: max(72px, env(safe-area-inset-left, 0px));
+      padding-right: max(72px, env(safe-area-inset-right, 0px));
+    }
+  }
+
+  .micro {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+  }
+
+  .editorial {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.04;
+  }
+
+  /* Butonlar */
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    min-height: 48px;
+    padding: 0 1.6rem;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition:
+      background-color 0.35s ease,
+      color 0.35s ease,
+      border-color 0.35s ease,
+      transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .btn:active {
+    transform: scale(0.98);
+  }
+  .btn svg {
+    transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .btn:hover svg {
+    transform: translateX(3px);
+  }
+  .btn-primary {
+    background: var(--ivory);
+    color: var(--ink);
+  }
+  .btn-primary:hover {
+    background: var(--bronze);
+    color: var(--ink);
+  }
+  .btn-ghost {
+    border: 1px solid rgba(213, 196, 174, 0.35);
+    color: var(--ivory);
+    background: rgba(26, 18, 14, 0.15);
+  }
+  /* Bulanık zemin yalnızca fareli cihazlarda: telefonda video her karede
+     değişirken backdrop-filter yeniden hesaplanıp takılmaya yol açıyordu. */
+  @media (hover: hover) and (pointer: fine) {
+    .btn-ghost {
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+  }
+  @media not ((hover: hover) and (pointer: fine)) {
+    .btn-ghost {
+      background: rgba(26, 18, 14, 0.4);
+    }
+  }
+  .btn-ghost:hover {
+    border-color: var(--bronze);
+    color: var(--ivory);
+  }
+  .btn[aria-disabled='true'] {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  /* Zarif alt çizgi */
+  .link-line {
+    position: relative;
+  }
+  .link-line::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+    height: 1px;
+    background: var(--bronze);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .link-line:hover::after,
+  .link-line[aria-current='true']::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  /* Henüz yapılandırılmamış alan */
+  .placeholder {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px dashed rgba(168, 132, 98, 0.55);
+    color: var(--mute);
+    font-size: 13px;
+    padding: 0.35rem 0.7rem;
+  }
+}
+
+/* Sahne */
+.stage {
+  height: 100vh;
+  height: 100svh;
+}
+/* svh bilmeyen eski iOS (< 15.4) vh değerini kullanır; satır içi tek değer
+   geçersiz sayılınca bölüm çöküyor ve tur hiç kaymıyordu. */
+.walk-section {
+  height: calc(var(--walk-len) * 100vh);
+  height: calc(var(--walk-len) * 100svh);
+}
+/* <dialog> desteklemeyen eski Safari (< 15.4) için: pencere bilinmeyen öğe
+   gibi davranır; açık/kapalı durumu ve tam ekran yerleşim burada verilir. */
+dialog:not([open]) {
+  display: none;
+}
+dialog[open] {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+}
+.walk-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  will-change: opacity;
+}
+.walk-layer img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  max-width: none;
+  transform-origin: 0 0;
+  will-change: transform;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.scene {
+  will-change: opacity, transform;
+  /* Hareketli görüntü üzerinde okunabilirlik */
+  text-shadow: 0 1px 2px rgba(26, 18, 14, 0.35), 0 2px 28px rgba(26, 18, 14, 0.55);
+}
+.scene .btn {
+  text-shadow: none;
+}
+
+/* Kaydırma ipucu çizgisi */
+@keyframes hint-line {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  45% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  55% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+.hint-line {
+  animation: hint-line 2.4s cubic-bezier(0.6, 0, 0.3, 1) infinite;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Bölümler arası sıcak geçişler */
+.warm-glow {
+  background:
+    radial-gradient(60% 50% at 85% 0%, rgba(168, 132, 98, 0.14), transparent 70%),
+    radial-gradient(50% 40% at 0% 100%, rgba(74, 74, 70, 0.35), transparent 70%),
+    var(--ink);
+}
+.warm-band {
+  background: linear-gradient(180deg, var(--ink) 0%, var(--coal) 40%, var(--coal) 60%, var(--ink) 100%);
+}
+
+/* Kaydırınca açılma: yalnızca JS çalışıyorsa gizli başlar */
+.js-reveal [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+  transition:
+    opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: calc(var(--d, 0) * 90ms);
+}
+.js-reveal [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Sonsuz akan şerit */
+@keyframes marquee {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+.marquee-track {
+  animation: marquee 38s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Galeri: yavaş yakınlaşma (Ken Burns) */
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+.slide-in {
+  animation: fadein 900ms ease forwards;
+}
+.kb {
+  animation: kenburns 6.8s ease-out forwards;
+}
+.slide-in-static {
+  animation: fadein 600ms ease forwards;
+}
+.slide-out {
+  animation: fadeout 900ms ease forwards;
+}
+.caption-in {
+  animation: fadein 700ms ease forwards;
+}
+@keyframes kenburns {
+  from {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.12) translate3d(-1.5%, -1%, 0);
+  }
+}
+@keyframes slide-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.slide-progress {
+  transform-origin: left;
+  animation: slide-progress linear forwards;
+}
+[data-paused='true'] .slide-progress,
+[data-paused='true'] .kb {
+  animation-play-state: paused;
+}
+
+/* Saç kesim makinesi imleci: yalnızca fare kullanılan cihazlarda.
+   Etkin nokta bıçağın ucu (8, 5). Metin alanlarında yazı imleci korunur. */
+@media (pointer: fine) {
+  html.clipper-cursor,
+  html.clipper-cursor body {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22 viewBox=%220 0 32 32%22%3E %3Cg transform=%22rotate%28-35 16 16%29%22 stroke=%22%231A120E%22 stroke-width=%221.2%22 stroke-linejoin=%22round%22%3E %3Crect x=%2210.5%22 y=%222%22 width=%2211%22 height=%225.5%22 rx=%221%22 fill=%22%23D5C4AE%22/%3E %3Cpath d=%22M12 2v2.4M14 2v2.4M16 2v2.4M18 2v2.4M20 2v2.4%22 stroke=%22%231A120E%22 stroke-width=%22.8%22/%3E %3Crect x=%2211.5%22 y=%227.5%22 width=%229%22 height=%2221%22 rx=%224%22 fill=%22%23A88462%22/%3E %3Crect x=%2214.7%22 y=%2212%22 width=%222.6%22 height=%225.5%22 rx=%221.3%22 fill=%22%231A120E%22 stroke=%22none%22/%3E %3Cpath d=%22M13.5 22.5h5M13.5 24.5h5%22 stroke=%22%231A120E%22 stroke-width=%22.8%22 stroke-linecap=%22round%22/%3E %3C/g%3E%3C/svg%3E") 8 5, auto;
+  }
+  html.clipper-cursor :is(a, button, [role='button'], [role='tab'], summary, label, select, [tabindex]:not([tabindex='-1'])),
+  html.clipper-cursor :is(a, button, [role='button'], [role='tab'], summary, label) * {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2232%22 height=%2232%22 viewBox=%220 0 32 32%22%3E %3Cg transform=%22rotate%28-35 16 16%29%22 stroke=%22%231A120E%22 stroke-width=%221.2%22 stroke-linejoin=%22round%22%3E %3Crect x=%2210.5%22 y=%222%22 width=%2211%22 height=%225.5%22 rx=%221%22 fill=%22%23A88462%22/%3E %3Cpath d=%22M12 2v2.4M14 2v2.4M16 2v2.4M18 2v2.4M20 2v2.4%22 stroke=%22%231A120E%22 stroke-width=%22.8%22/%3E %3Crect x=%2211.5%22 y=%227.5%22 width=%229%22 height=%2221%22 rx=%224%22 fill=%22%23D5C4AE%22/%3E %3Crect x=%2214.7%22 y=%2212%22 width=%222.6%22 height=%225.5%22 rx=%221.3%22 fill=%22%231A120E%22 stroke=%22none%22/%3E %3Cpath d=%22M13.5 22.5h5M13.5 24.5h5%22 stroke=%22%231A120E%22 stroke-width=%22.8%22 stroke-linecap=%22round%22/%3E %3C/g%3E%3Cpath d=%22M6 13.5 3.6 15M5 10.5 2.4 11.4M9.2 15.8 7.8 18%22 stroke=%22%23A88462%22 stroke-width=%221.3%22 stroke-linecap=%22round%22/%3E%3C/svg%3E") 8 5, pointer;
+  }
+  html.clipper-cursor :is(input:not([type='checkbox']):not([type='radio']):not([type='date']), textarea) {
+    cursor: text;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee { overflow-x: auto; }
+  .marquee-track { animation: none !important; }
+}
