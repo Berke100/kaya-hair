@@ -2,3 +2,9 @@
 
 node_modules
 dist
+dist-single
+
+# Gizli anahtarlar asla repoya girmesin
+.env
+.env.*
+!.env.example
